@@ -1,0 +1,222 @@
+openapi: 3.0.3
+info:
+  title: Training Center Management API
+  version: 1.0.0
+  description: API documentation for managing teaching staff and students in a training center.
+
+servers:
+  - url: /api/v1
+
+tags:
+  - name: Teaching Staff
+    description: Endpoints for managing teaching staff.
+  - name: Students
+    description: Endpoints for managing students.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+paths:
+  /teaching-staff:
+    get:
+      tags:
+        - Teaching Staff
+      summary: Get all teaching staff members.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeachingStaff'
+
+    post:
+      tags:
+        - Teaching Staff
+      summary: Add a new teaching staff member.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeachingStaff'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+
+  /teaching-staff/search:
+    get:
+      tags:
+        - Teaching Staff
+      summary: Search teaching staff by full name, personal ID number, email, or phone number.
+      parameters:
+        - in: query
+          name: fullName
+          schema:
+            type: string
+          description: Full name of the teaching staff member.
+        - in: query
+          name: personalIdNumber
+          schema:
+            type: string
+          description: Personal ID number of the teaching staff member.
+        - in: query
+          name: email
+          schema:
+            type: string
+          description: Email of the teaching staff member.
+        - in: query
+          name: phoneNumber
+          schema:
+            type: string
+          description: Phone number of the teaching staff member.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeachingStaff'
+
+  /students:
+    get:
+      tags:
+        - Students
+      summary: Get all students.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+
+    post:
+      tags:
+        - Students
+      summary: Add a new student.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+
+  /students/search:
+    get:
+      tags:
+        - Students
+      summary: Search students by full name, personal ID number, email, or phone number.
+      parameters:
+        - in: query
+          name: fullName
+          schema:
+            type: string
+          description: Full name of the student.
+        - in: query
+          name: personalIdNumber
+          schema:
+            type: string
+          description: Personal ID number of the student.
+        - in: query
+          name: email
+          schema:
+            type: string
+          description: Email of the student.
+        - in: query
+          name:
+          schema:
+            type: string
+          description: Phone number of the student.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+
+components:
+  schemas:
+    TeachingStaff:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        personalIdNumber:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        subject:
+          type: string
+        salary:
+          type: integer
+          format: int32
+        isPaid:
+          type: boolean
+        personalIdCopy:
+          type: string
+          format: binary
+        resume:
+          type: string
+          format: binary
+        degrees:
+          type: string
+          format: binary
+
+    Student:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        personalIdNumber:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        isPaid:
+          type: boolean
+        personalIdCopy:
+          type: string
+          format: binary
+        degree:
+          type: string
+          format: binary
+        remainingFees:
+          type: number
+          format: float
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
