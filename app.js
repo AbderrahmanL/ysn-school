@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const authMiddleware = require('./middlewares/authMiddleware');
 
 dotenv.config();
 
@@ -17,11 +18,13 @@ mongoose.connect(process.env.MONGO_URI, {
 // Set up routes
 const teachingStaffRouter = require('./routers/teachingStaffRouter');
 const studentRouter = require('./routers/studentRouter');
+const authRoutes = require('./routers/authRouter')
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use('/api/v1/teaching-staff', teachingStaffRouter);
-app.use('/api/v1/students', studentRouter);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/teaching-staff', authMiddleware, teachingStaffRouter);
+app.use('/api/v1/students', authMiddleware, studentRouter);
 
 // Start the server
 const port = process.env.PORT || 3000;

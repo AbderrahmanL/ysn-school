@@ -20,6 +20,36 @@ components:
       scheme: bearer
 
 paths:
+  /register:
+    post:
+      summary: User Registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User registered successfully
+
+  /login:
+    post:
+      summary: User Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+
   /teaching-staff:
     get:
       tags:
@@ -214,6 +244,26 @@ components:
         remainingFees:
           type: number
           format: float
+
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: User's username
+        password:
+          type: string
+          description: User's password
+      required:
+        - username
+        - password
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JSON Web Token (JWT) for authentication
 
   securitySchemes:
     bearerAuth:
