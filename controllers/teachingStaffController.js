@@ -1,4 +1,5 @@
 const TeachingStaff = require('../models/teachingStaffModel');
+const { handleErrorResponse } = require('../helpers/errorHandler');
 
 // Get all teaching staff
 const getAllTeachingStaff = (req, res) => {
@@ -117,16 +118,6 @@ const deleteTeachingStaff = (req, res) => {
       handleErrorResponse(res, 500, error);
     });
 };
-
-// Error handler function
-const handleErrorResponse = (res, statusCode, error) => {
-    res.status(statusCode).json({
-      error: {
-        message: error.message,
-        stack: error.stack,
-      },
-    });
-  };
 
 module.exports = {
   getAllTeachingStaff,
