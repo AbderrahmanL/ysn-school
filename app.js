@@ -1,22 +1,25 @@
 const express = require('express');
+const app = express();
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-// Create Express app
-const app = express();
-
-// Middleware
-app.use(express.json());
+dotenv.config();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/training-center', {
+//db~
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+}).then(() => console.log('DB connected'));
 
 // Set up routes
 const teachingStaffRouter = require('./routers/teachingStaffRouter');
 const studentRouter = require('./routers/studentRouter');
 
+app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use('/api/v1/teaching-staff', teachingStaffRouter);
 app.use('/api/v1/students', studentRouter);
 
